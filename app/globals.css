@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: #0b0e14;
+  background-image:
+    radial-gradient(1200px 600px at 100% -10%, rgba(200, 255, 77, 0.05), transparent 60%),
+    radial-gradient(800px 500px at -10% 20%, rgba(51, 214, 166, 0.04), transparent 60%);
+}
+
+::selection {
+  background: #c8ff4d;
+  color: #0b0e14;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
