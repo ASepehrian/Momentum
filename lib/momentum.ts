@@ -49,13 +49,13 @@ export function analyzePair(
   const reasons: string[] = [];
   if (!lowLiquidity) {
     if (volumeAccel >= THRESHOLDS.minVolumeAccel) {
-      reasons.push(`حجم ${volumeAccel === Infinity ? "∞" : volumeAccel.toFixed(1)}×`);
+      reasons.push(`Volume ${volumeAccel === Infinity ? "∞" : volumeAccel.toFixed(1)}×`);
     }
     if (buyAccel >= THRESHOLDS.minBuyAccel) {
-      reasons.push(`خرید ${buyAccel === Infinity ? "∞" : buyAccel.toFixed(1)}×`);
+      reasons.push(`Buys ${buyAccel === Infinity ? "∞" : buyAccel.toFixed(1)}×`);
     }
     if (priceChangeM5 >= THRESHOLDS.minPriceChangeM5) {
-      reasons.push(`قیمت +${priceChangeM5.toFixed(1)}%`);
+      reasons.push(`Price +${priceChangeM5.toFixed(1)}%`);
     }
   }
 
