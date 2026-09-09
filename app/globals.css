@@ -7,15 +7,72 @@ html {
 }
 
 body {
-  background: #0b0e14;
-  background-image:
-    radial-gradient(1200px 600px at 100% -10%, rgba(200, 255, 77, 0.05), transparent 60%),
-    radial-gradient(800px 500px at -10% 20%, rgba(51, 214, 166, 0.04), transparent 60%);
+  min-height: 100vh;
+  background:
+    radial-gradient(900px 520px at 85% -8%, rgba(200,255,77,0.10), transparent 62%),
+    radial-gradient(700px 500px at 5% 18%, rgba(51,214,166,0.07), transparent 64%),
+    linear-gradient(180deg, #080b10 0%, #0b0e14 42%, #090c11 100%);
+}
+
+main > div {
+  max-width: 1080px !important;
+}
+
+main > div > header {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(20,26,36,0.94), rgba(12,16,23,0.82));
+  box-shadow: 0 24px 70px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+main > div > header::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  left: -120px;
+  top: -150px;
+  border-radius: 999px;
+  background: rgba(200,255,77,0.07);
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+section > div:last-child {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+section > div:last-child > a {
+  min-height: 190px;
+  border-radius: 24px;
+  background-color: rgba(18,22,31,0.78);
+  backdrop-filter: blur(12px);
+}
+
+section > div:last-child > a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.24);
 }
 
 ::selection {
   background: #c8ff4d;
   color: #0b0e14;
+}
+
+@media (max-width: 640px) {
+  main > div > header {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  section > div:last-child {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
