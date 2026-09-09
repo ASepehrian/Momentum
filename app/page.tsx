@@ -46,9 +46,9 @@ function formatAccel(n: number | undefined) {
 function timeAgo(iso: string | null) {
   if (!iso) return "";
   const sec = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 1000));
-  if (sec < 5) return "همین الان";
-  if (sec < 60) return `${sec} ثانیه پیش`;
-  return `${Math.floor(sec / 60)} دقیقه پیش`;
+  if (sec < 5) return "just now";
+  if (sec < 60) return `${sec}s ago`;
+  return `${Math.floor(sec / 60)}m ago`;
 }
 
 export default function Home() {
@@ -68,7 +68,7 @@ export default function Home() {
       setUpdatedAt(data.updatedAt ?? null);
       setError(null);
     } catch {
-      setError("اتصال برقرار نشد؛ دوباره تلاش می‌کنیم.");
+      setError("Connection failed; retrying automatically.");
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -96,15 +96,15 @@ export default function Home() {
                 <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_14px_rgba(200,255,77,0.8)]" />
                 <span className="text-[11px] font-semibold tracking-[0.16em] text-accent">ON-CHAIN MONITOR</span>
               </div>
-              <h1 className="text-3xl font-black tracking-tight text-ink">مومنتوم</h1>
+              <h1 className="text-3xl font-black tracking-tight text-ink">Momentum</h1>
               <p className="mt-1.5 max-w-md text-sm leading-6 text-mute">
-                شتاب واقعی خرید و حجم روی زنجیره؛ قبل از اینکه سر و صدای اجتماعی بالا برود.
+                Real buying and volume acceleration on-chain, before social buzz takes off.
               </p>
             </div>
             <button
               onClick={() => load(true)}
               disabled={refreshing}
-              aria-label="به‌روزرسانی داده‌ها"
+              aria-label="Refresh data"
               className="mt-1 flex min-h-11 min-w-11 items-center justify-center rounded-xl border border-line bg-panel text-mute transition active:scale-95 disabled:opacity-50"
             >
               <span className={`text-lg ${refreshing ? "animate-spin" : ""}`}>↻</span>
@@ -112,13 +112,13 @@ export default function Home() {
           </div>
 
           <div className="mt-5 grid grid-cols-3 gap-2">
-            <Summary value={hits.length} label="مومنتوم فعال" accent />
-            <Summary value={results.length} label="دارایی پایش‌شده" />
-            <Summary value={lowLiquidityCount} label="نقدینگی پایین" warning={lowLiquidityCount > 0} />
+            <Summary value={hits.length} label="Active momentum" accent />
+            <Summary value={results.length} label="Monitored assets" />
+            <Summary value={lowLiquidityCount} label="Low liquidity" warning={lowLiquidityCount > 0} />
           </div>
 
           <div className="mt-3 flex items-center justify-between text-[11px] text-mute">
-            <span>{loading ? "در حال دریافت داده‌های زنده…" : updatedAt ? `آخرین بروزرسانی ${timeAgo(updatedAt)}` : ""}</span>
+            <span>{loading ? "Fetching live data…" : updatedAt ? `Last update ${timeAgo(updatedAt)}` : ""}</span>
             <span className="font-mono">auto · 30s</span>
           </div>
         </header>
@@ -132,16 +132,16 @@ export default function Home() {
         {!loading && results.length === 0 && (
           <div className="rounded-3xl border border-dashed border-line bg-panel px-5 py-10 text-center shadow-panel">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-panel2 text-xl">＋</div>
-            <p className="font-bold text-ink">واچ‌لیست خالی است</p>
+            <p className="font-bold text-ink">Watchlist is empty</p>
             <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-mute">
-              برای شروع، جفت‌ارزهای تأییدشده را در <code className="rounded bg-panel2 px-1.5 py-0.5 font-mono text-accent">lib/watchlist.ts</code> اضافه کن و دوباره دیپلوی کن.
+              Add verified pairs to <code className="rounded bg-panel2 px-1.5 py-0.5 font-mono text-accent">lib/watchlist.ts</code> and deploy again to get started.
             </p>
           </div>
         )}
 
         {hits.length > 0 && (
           <section className="mb-7">
-            <SectionTitle title="مومنتوم فعال" count={hits.length} accent />
+            <SectionTitle title="Active momentum" count={hits.length} accent />
             <div className="flex flex-col gap-3">
               {hits.map((r, i) => <TokenCard key={`${r.label}-${r.chainId}-${i}`} r={r} />)}
             </div>
@@ -150,7 +150,7 @@ export default function Home() {
 
         {rest.length > 0 && (
           <section>
-            <SectionTitle title="پایش بازار" count={rest.length} />
+            <SectionTitle title="Market monitoring" count={rest.length} />
             <div className="flex flex-col gap-3">
               {rest.map((r, i) => <TokenCard key={`${r.label}-${r.chainId}-${i}`} r={r} />)}
             </div>
@@ -159,13 +159,13 @@ export default function Home() {
 
         {errored.length > 0 && (
           <section className="mt-7 pb-8">
-            <SectionTitle title="نیازمند بررسی" count={errored.length} />
+            <SectionTitle title="Needs review" count={errored.length} />
             <div className="flex flex-col gap-2">
               {errored.map((r, i) => (
                 <div key={`${r.label}-${i}`} className="rounded-2xl border border-line bg-panel/70 px-4 py-3">
                   <div className="flex items-center justify-between gap-3">
                     <span className="text-sm font-semibold text-ink">{r.label}</span>
-                    <span className="rounded-full bg-panel2 px-2 py-1 text-[10px] text-mute">{r.source === "altrank" ? "AltRank" : "دستی"}</span>
+                    <span className="rounded-full bg-panel2 px-2 py-1 text-[10px] text-mute">{r.source === "altrank" ? "AltRank" : "Manual"}</span>
                   </div>
                   <p className="mt-1 text-xs leading-5 text-mute">{r.error}</p>
                 </div>
@@ -176,7 +176,7 @@ export default function Home() {
 
         {results.length > 0 && (
           <footer className="mt-8 border-t border-line pt-4 pb-6 text-center text-[11px] leading-5 text-mute">
-            فقط مانیتورینگ است؛ هیچ معامله‌ای انجام نمی‌شود. قبل از هر تصمیم، جفت‌ارز را در DexScreener بررسی کن.
+            Monitoring only; no trades are executed. Check each pair on DexScreener before making any decision.
           </footer>
         )}
       </div>
@@ -227,7 +227,7 @@ function TokenCard({ r }: { r: MomentumResult }) {
               <span className="rounded-full border border-accent/20 bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent">AltRank #{r.altRank}</span>
             )}
             {r.source === "manual" && (
-              <span className="rounded-full border border-line bg-panel2 px-2 py-0.5 text-[10px] text-mute">واچ‌لیست</span>
+              <span className="rounded-full border border-line bg-panel2 px-2 py-0.5 text-[10px] text-mute">Watchlist</span>
             )}
           </div>
           <div className="mt-1 text-[10px] text-mute">{r.label} · {r.chainId}</div>
@@ -235,15 +235,15 @@ function TokenCard({ r }: { r: MomentumResult }) {
         <div className="shrink-0 text-left">
           <div className="font-mono text-sm font-bold text-ink">{formatUsd(r.priceUsd)}</div>
           <div className={`mt-1 text-[10px] font-mono ${priceUp ? "text-up" : "text-down"}`}>
-            {priceUp ? "▲" : "▼"} {Math.abs(r.priceChangeM5 ?? 0).toFixed(1)}% / ۵د
+            {priceUp ? "▲" : "▼"} {Math.abs(r.priceChangeM5 ?? 0).toFixed(1)}% / 5m
           </div>
         </div>
       </div>
 
       <div className="mt-4 grid grid-cols-3 gap-2">
-        <Metric label="شتاب حجم" value={formatAccel(r.volumeAccel)} />
-        <Metric label="شتاب خرید" value={formatAccel(r.buyAccel)} />
-        <Metric label="نقدینگی" value={formatCompactUsd(r.liquidityUsd)} />
+        <Metric label="Volume accel" value={formatAccel(r.volumeAccel)} />
+        <Metric label="Buy accel" value={formatAccel(r.buyAccel)} />
+        <Metric label="Liquidity" value={formatCompactUsd(r.liquidityUsd)} />
       </div>
 
       {r.reasons && r.reasons.length > 0 && (
@@ -256,7 +256,7 @@ function TokenCard({ r }: { r: MomentumResult }) {
 
       {isLow && (
         <div className="mt-3 flex items-center gap-1.5 text-[10px] font-medium text-down">
-          <span>⚠</span> نقدینگی کمتر از حد ایمن؛ سیگنال فعال نمی‌شود
+          <span>⚠</span> Liquidity below safety threshold; signal is not activated
         </div>
       )}
     </a>
