@@ -48,15 +48,9 @@ export function analyzePair(
 
   const reasons: string[] = [];
   if (!lowLiquidity) {
-    if (volumeAccel >= THRESHOLDS.minVolumeAccel) {
-      reasons.push(`Volume ${volumeAccel === Infinity ? "∞" : volumeAccel.toFixed(1)}×`);
-    }
-    if (buyAccel >= THRESHOLDS.minBuyAccel) {
-      reasons.push(`Buys ${buyAccel === Infinity ? "∞" : buyAccel.toFixed(1)}×`);
-    }
-    if (priceChangeM5 >= THRESHOLDS.minPriceChangeM5) {
-      reasons.push(`Price +${priceChangeM5.toFixed(1)}%`);
-    }
+    if (volumeAccel >= THRESHOLDS.minVolumeAccel) reasons.push(`Volume ${volumeAccel === Infinity ? "∞" : volumeAccel.toFixed(1)}×`);
+    if (buyAccel >= THRESHOLDS.minBuyAccel) reasons.push(`Buys ${buyAccel === Infinity ? "∞" : buyAccel.toFixed(1)}×`);
+    if (priceChangeM5 >= THRESHOLDS.minPriceChangeM5) reasons.push(`Price +${priceChangeM5.toFixed(1)}%`);
   }
 
   return {
